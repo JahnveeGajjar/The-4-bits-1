@@ -34,6 +34,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+
 import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,9 +48,11 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+    Button image_view;
     Uri selectedImageUri;
-    TextView barcoderesult;
+    TextView txtResult;
     private StorageTask mUploadTask;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.progressBar);
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-        barcoderesult = (TextView) findViewById(R.id.qroutput);
+        txtResult = (TextView) findViewById(R.id.qroutput);
+        image_view = (Button)findViewById(R.id.image_view);
 
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void SelectImage(final View myview) {
@@ -151,9 +156,9 @@ public class MainActivity extends AppCompatActivity {
                     Barcode barcode = data.getParcelableExtra("barcode");
                     Intent intent = new Intent(this,TextOutput.class);
                     startActivityForResult(intent,0);
-                    barcoderesult.setText("BarCode Value:" + barcode.displayValue);
+                    txtResult.setText("BarCode Value:" + barcode.displayValue);
                 }else {
-                    barcoderesult.setText("No Barcode Found");
+                    txtResult.setText("No Barcode Found");
                 }
             }
         }else {
